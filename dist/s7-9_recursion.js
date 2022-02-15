@@ -129,6 +129,206 @@ const reverseStrRec = (str) => {
     swap([0, arr.length - 1]);
     return arr.join('');
 };
-console.log("reverseStrArray('rithmschool') === 'loohcsmhtir'", reverseStrArray('rithmschool') === 'loohcsmhtir');
-console.log("reverseStrIt('rithmschool') === 'loohcsmhtir'", reverseStrIt('rithmschool') === 'loohcsmhtir');
-console.log("reverseStrRec('rithmschool') === 'loohcsmhtir'", reverseStrRec('rithmschool') === 'loohcsmhtir');
+function reverseEZ(str) {
+    if (str.length <= 1)
+        return str;
+    return reverse(str.slice(1)) + str[0];
+}
+// console.log("reverseStrArray('rithmschool') === 'loohcsmhtir'", reverseStrArray('rithmschool') === 'loohcsmhtir')
+// console.log("reverseStrIt('rithmschool') === 'loohcsmhtir'", reverseStrIt('rithmschool') === 'loohcsmhtir')
+// console.log("reverseStrRec('rithmschool') === 'loohcsmhtir'", reverseStrRec('rithmschool') === 'loohcsmhtir')
+function isPalindrome(str) {
+    if (str.length === 0)
+        return false;
+    let arr = str.split('');
+    // keep moving the window in towards itself and return false if ever they don't match
+    const helper = (i, j) => {
+        if (i >= j)
+            return true;
+        if (arr[i] !== arr[j])
+            return false;
+        return helper(i + 1, j - 1);
+    };
+    return helper(0, arr.length - 1);
+}
+// console.log("isPalindrome('awesome') === false", isPalindrome('awesome') === false)
+// console.log("isPalindrome('foobar') === false", isPalindrome('foobar') === false)
+// console.log("isPalindrome('tacocat') === true", isPalindrome('tacocat') === true)
+// console.log("isPalindrome('amanaplanacanalpanama') === true", isPalindrome('amanaplanacanalpanama') === true)
+// console.log("isPalindrome('amanaplanacanalpandemonium') === false", isPalindrome('amanaplanacanalpandemonium') === false)
+const isOdd = (val) => val % 2 !== 0;
+// easy one liner with reduce
+// const someRecursive = (arr, cb) => arr.reduce((a, c) => a || cb(c), false)
+// return true if any of the callbacks return true
+function someRecursive(arr, cb) {
+    if (arr.length === 0)
+        return false;
+    return cb(arr.pop()) || someRecursive(arr, cb);
+}
+// console.log("someRecursive([1,2,3,4], isOdd) === true", someRecursive([1,2,3,4], isOdd) === true)
+// console.log("someRecursive([4,6,8,9], isOdd) === true", someRecursive([4,6,8,9], isOdd) === true)
+// console.log("someRecursive([4,6,8], isOdd) === false", someRecursive([4,6,8], isOdd) === false)
+// console.log("someRecursive([4,6,8], val => val > 10) === false", someRecursive([4,6,8], val => val > 10) === false)
+function flatten(arr) {
+    let answer = [];
+    // if it's not an array, push it to answer and return. otherwise, call recursively on each element
+    const helper = (array) => {
+        if (!Array.isArray(array))
+            return answer.push(array);
+        array.forEach(helper);
+    };
+    helper(arr);
+    return answer;
+}
+// console.log("JSON.stringify(flatten([1, 2, 3, [4, 5] ])) === JSON.stringify([1, 2, 3, 4, 5])", JSON.stringify(flatten([1, 2, 3, [4, 5] ])) === JSON.stringify([1, 2, 3, 4, 5]))
+// console.log("JSON.stringify(flatten([1, [2, [3, 4], [[5]]]])) === JSON.stringify([1, 2, 3, 4, 5])", JSON.stringify(flatten([1, [2, [3, 4], [[5]]]])) === JSON.stringify([1, 2, 3, 4, 5]))
+// console.log("JSON.stringify(flatten([[1],[2],[3]])) === JSON.stringify([1,2,3])", JSON.stringify(flatten([[1],[2],[3]])) === JSON.stringify([1,2,3]))
+// console.log("JSON.stringify(flatten([[[[1], [[[2]]], [[[[[[[3]]]]]]]]]])) === JSON.stringify([1,2,3)", JSON.stringify(flatten([[[[1], [[[2]]], [[[[[[[3]]]]]]]]]])) === JSON.stringify([1,2,3]))
+function capitalizeFirst(arr) {
+    return arr.map(s => s[0].toUpperCase() + s.slice(1));
+}
+// console.log("JSON.stringify(capitalizeFirst(['car','taco','banana'])) === JSON.stringify(['Car','Taco','Banana'])", JSON.stringify(capitalizeFirst(['car','taco','banana'])) === JSON.stringify(['Car','Taco','Banana']))
+function nestedEvenSum(obj) {
+    let total = 0;
+    // recursively check elements. if the el is an object, get values and repeat
+    // if it's a number, add it to the total and return
+    const helper = (el) => {
+        if (typeof el === 'number' && el % 2 === 0) {
+            total += el;
+            return;
+        }
+        if (typeof el === 'object' && el !== null) {
+            Object.values(el).forEach(helper);
+        }
+    };
+    helper(obj);
+    return total;
+}
+const obj1 = {
+    outer: 2,
+    obj: {
+        inner: 2,
+        otherObj: {
+            superInner: 2,
+            notANumber: true,
+            alsoNotANumber: "yup"
+        }
+    }
+};
+const obj2 = {
+    a: 2,
+    b: { b: 2, bb: { b: 3, bb: { b: 2 } } },
+    c: { c: { c: 2 }, cc: 'ball', ccc: 5 },
+    d: 1,
+    e: { e: { e: 2 }, ee: 'car' }
+};
+// console.log("nestedEvenSum(obj1) === 6", nestedEvenSum(obj1) === 6)
+// console.log("nestedEvenSum(obj2) === 10", nestedEvenSum(obj2) === 10)
+// const capitalizeWords = (arr: string[]): string[] => arr.map(x => x.toUpperCase())
+const capitalizeWords = (arr) => {
+    const helper = (str) => {
+        if (str.length === 1)
+            return str[0].toUpperCase();
+        return str[0].toUpperCase().concat(helper(str.slice(1)));
+    };
+    return arr.map(helper);
+};
+// console.log(capitalizeWords(['i', 'am', 'learning', 'recursion']))
+// console.log("JSON.stringify(capitalizeWords(['i', 'am', 'learning', 'recursion'])) === JSON.stringify(['I', 'AM', 'LEARNING', 'RECURSION'])", JSON.stringify(capitalizeWords(['i', 'am', 'learning', 'recursion'])) === JSON.stringify(['I', 'AM', 'LEARNING', 'RECURSION']))
+// warn this passed my tests, but didn't pass the online test
+function stringify(object) {
+    return Object.fromEntries(Object
+        .entries(object)
+        .map(([k, v]) => {
+        if (typeof v === 'number') {
+            return [k, v.toString()];
+        }
+        if (Array.isArray(v)) {
+            return [k, v.map(stringify)];
+        }
+        if (typeof v === 'object') {
+            return [k, stringify(v)];
+        }
+        return [k, v];
+    }));
+}
+const stringify2 = (object) => {
+    let newObj = {};
+    const helper = (obj) => {
+        if (Array.isArray(obj))
+            return obj.forEach(helper);
+        for (let k in obj) {
+            if (typeof obj[k] === 'number') {
+                newObj[k] = obj[k].toString();
+            }
+            else if (typeof obj[k] === 'object') {
+                newObj[k] = stringify2(obj[k]);
+            }
+            else {
+                newObj[k] = obj[k];
+            }
+        }
+    };
+    helper(object);
+    return newObj;
+};
+let obj = {
+    num: 1,
+    test: [
+        { wow: 'okay', really: 'yes', number: 1000 }
+    ],
+    data: {
+        val: 4,
+        info: {
+            isRight: true,
+            random: 66
+        }
+    }
+};
+let answer = {
+    num: "1",
+    test: [
+        { wow: 'okay', really: 'yes', number: "1000" }
+    ],
+    data: {
+        val: "4",
+        info: {
+            isRight: true,
+            random: "66"
+        }
+    }
+};
+// console.log("JSON.stringify(stringifyNumbers(obj)) === JSON.stringify(answer)", JSON.stringify(stringify(obj)) === JSON.stringify(answer))
+// console.log("JSON.stringify(stringify2(obj)) === JSON.stringify(answer)", JSON.stringify(stringify2(obj)) === JSON.stringify(answer))
+const collectStrings = (obj) => {
+    let answer = [];
+    const helper = (val) => {
+        if (typeof val === "string") {
+            answer.push(val);
+            return;
+        }
+        if (typeof val !== "object" || val === null)
+            return;
+        Object.entries(val).forEach(([k, v]) => {
+            helper(v);
+        });
+    };
+    helper(obj);
+    return answer;
+};
+const collectObj = {
+    stuff: "foo",
+    data: {
+        val: {
+            thing: {
+                info: "bar",
+                moreInfo: {
+                    evenMoreInfo: {
+                        weMadeIt: "baz"
+                    }
+                }
+            }
+        }
+    }
+};
+// console.log(`collectStrings(collectObj) === ["foo", "bar", "baz"]`, JSON.stringify(collectStrings(collectObj)) === JSON.stringify(["foo", "bar", "baz"]))
