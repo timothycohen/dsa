@@ -22,11 +22,20 @@
   "scripts": {
     "dev": "tsc --watch",
     "lint": "eslint --ext .js,.ts .",
-    "format": "prettier --ignore-path .gitignore --write \"**/*.+(js|ts|json)\""
+    "format": "prettier --ignore-path .gitignore --write \"**/*.+(js|ts|json)\"",
+    "test": "jest --watch"
   },
   "eslintConfig": {
-    "plugins": ["@typescript-eslint", "html", "import"],
-    "extends": [ "airbnb-base", "airbnb-typescript/base", "prettier" ],
+    "plugins": [
+      "@typescript-eslint",
+      "html",
+      "import"
+    ],
+    "extends": [
+      "airbnb-base",
+      "airbnb-typescript/base",
+      "prettier"
+    ],
     "parser": "@typescript-eslint/parser",
     "parserOptions": {
       "ecmaVersion": 2020,
@@ -34,7 +43,10 @@
       "project": "./tsconfig.json"
     },
     "rules": {
-      "@typescript-eslint/consistent-type-definitions": ["error", "type"],
+      "@typescript-eslint/consistent-type-definitions": [
+        "error",
+        "type"
+      ],
       "no-unused-vars": 0,
       "@typescript-eslint/no-unused-vars": 0,
       "no-console": 0
@@ -44,5 +56,8 @@
       "es2021": true,
       "node": true
     }
+  },
+  "devDependencies": {
+    "jest": "^27.5.1"
   }
 }
