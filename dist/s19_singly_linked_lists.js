@@ -145,4 +145,4 @@ class SinglyLinkedList {
         console.log(JSON.stringify(this, null, 2));
     }
 }
-module.exports = SinglyLinkedList;
+module.exports = { SinglyLinkedList };

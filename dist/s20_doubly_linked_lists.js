@@ -149,4 +149,4 @@ class DoublyLinkedList {
         console.log(JSON.stringify(this, null, 2));
     }
 }
-module.exports = DoublyLinkedList;
+module.exports = { DoublyLinkedList };

@@ -1,4 +1,4 @@
-const DoublyLinkedList = require('../dist/s20_doubly_linked_lists')
+const { DoublyLinkedList } = require('../dist/s20_doubly_linked_lists')
 
 test('new list', () => {
   let list = new DoublyLinkedList;

@@ -1,4 +1,4 @@
-const SinglyLinkedList = require('../dist/s19_singly_linked_lists')
+const { SinglyLinkedList } = require('../dist/s19_singly_linked_lists')
 
 test('new list', () => {
   let list = new SinglyLinkedList;
