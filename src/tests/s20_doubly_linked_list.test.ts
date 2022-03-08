@@ -56,6 +56,11 @@ test('.pop removes one from the end and returns the node or undefined', () => {
   expect(list.tail.val).toBe(3);
   expect(list.tail.prev).toBe(list.head);
   expect(list.head.next).toBe(list.tail);
+
+  expect(popped5.prev).toBe(null);
+  expect(popped5.next).toBe(null);
+  expect(popped7.prev).toBe(null);
+  expect(popped7.next).toBe(null);
 });
 test('.shift removes one from the start and returns the node or undefined', () => {
   const list = new DoublyLinkedList();
@@ -79,6 +84,11 @@ test('.shift removes one from the start and returns the node or undefined', () =
   expect(list.tail.val).toBe(7);
   expect(list.tail.prev).toBe(list.head);
   expect(list.head.next).toBe(list.tail);
+
+  expect(shifted5.prev).toBe(null);
+  expect(shifted1.prev).toBe(null);
+  expect(shifted5.next).toBe(null);
+  expect(shifted1.next).toBe(null);
 });
 test('.unshift adds one to the start and returns the list', () => {
   const list = new DoublyLinkedList();
@@ -194,26 +204,40 @@ test('.remove deletes a node at the position and returns the removed node or und
   list.push('1');
   list.push(2);
   list.push(3);
-  expect(list.remove(1).val).toBe('1');
+
+  const removed0 = list.remove(1);
+  expect(removed0.val).toBe('1');
   expect(list.get(1).val).toBe(2);
   expect(list.get(1).prev.val).toBe(0);
   expect(list.get(1).next.val).toBe(3);
 
-  expect(list.remove(0).val).toBe(0);
+  const removed1 = list.remove(0);
+  expect(removed1.val).toBe(0);
   expect(list.get(0).val).toBe(2);
   expect(list.get(0).prev).toBe(null);
   expect(list.length).toBe(2);
 
-  expect(list.remove(1).val).toBe(3);
+  const removed2 = list.remove(1);
+  expect(removed2.val).toBe(3);
   expect(list.get(0).val).toBe(2);
   expect(list.get(0).next).toBe(null);
   expect(list.get(0).prev).toBe(null);
   expect(list.tail).toBe(list.head);
 
-  expect(list.remove(0).val).toBe(2);
+  const removed3 = list.remove(0);
+  expect(removed3.val).toBe(2);
   expect(list.tail).toBe(list.head);
   expect(list.tail).toBe(null);
   expect(list.length).toBe(0);
+
+  expect(removed0.prev).toBe(null);
+  expect(removed1.prev).toBe(null);
+  expect(removed2.prev).toBe(null);
+  expect(removed3.prev).toBe(null);
+  expect(removed0.next).toBe(null);
+  expect(removed1.next).toBe(null);
+  expect(removed2.next).toBe(null);
+  expect(removed3.next).toBe(null);
 });
 test('.reverse reverses the list', () => {
   const list = new DoublyLinkedList();

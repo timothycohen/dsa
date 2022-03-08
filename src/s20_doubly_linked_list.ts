@@ -60,6 +60,8 @@ class DoublyLinkedList {
     newTail.next = null;
     this.tail = newTail;
     this.length--;
+
+    oldTail.prev = null;
     return oldTail;
   }
 
@@ -80,6 +82,8 @@ class DoublyLinkedList {
     newHead.prev = null;
     this.head = newHead;
     this.length--;
+
+    oldHead.next = null;
     return oldHead;
   }
 
@@ -145,12 +149,16 @@ class DoublyLinkedList {
     if (index === this.length - 1) return this.pop();
     if (index > this.length - 1 || index < 0) return undefined;
 
+    // the above edge checking that the prev and next nodes exist and won't be null
     const nodeL = this.get(index - 1)!;
     const nodeToRemove = nodeL.next!;
     const nodeR = nodeToRemove.next!;
     nodeL.next = nodeL.next!.next;
     nodeR.prev = nodeR.prev!.prev;
     this.length--;
+
+    nodeToRemove.prev = null;
+    nodeToRemove.next = null;
     return nodeToRemove;
   }
 

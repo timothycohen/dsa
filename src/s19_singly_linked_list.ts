@@ -64,12 +64,14 @@ class SinglyLinkedList {
 
   shift(): SinglyLinkedListNode<unknown> | undefined {
     if (this.head === null) return undefined;
-    const { head } = this;
+    const oldHead = this.head;
     this.head = this.head.next;
-    head.next = null;
+    oldHead.next = null;
     this.length--;
     if (this.length === 0) this.tail = null;
-    return head;
+
+    oldHead.next = null;
+    return oldHead;
   }
 
   unshift<T>(val: T): SinglyLinkedList {
@@ -118,12 +120,14 @@ class SinglyLinkedList {
     if (index === this.length - 1) return this.pop();
     if (index > this.length - 1 || index < 0) return undefined;
 
-    const prevNode = this.get(index - 1);
-    const removedNode = prevNode!.next;
-    prevNode!.next = removedNode!.next;
+    // the above edge checking that the prev and next nodes exist and won't be null
+    const prevNode = this.get(index - 1)!;
+    const removedNode = prevNode.next!;
+    prevNode.next = removedNode.next;
     this.length--;
 
-    return removedNode!;
+    removedNode.next = null;
+    return removedNode;
   }
 
   reverse(): SinglyLinkedList {
