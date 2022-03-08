@@ -7,9 +7,14 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@babel/core": "^7.17.5",
+    "@babel/preset-env": "^7.16.11",
+    "@babel/preset-typescript": "^7.16.7",
+    "@types/jest": "^27.4.1",
     "@types/node": "^17.0.17",
     "@typescript-eslint/eslint-plugin": "^5.11.0",
     "@typescript-eslint/parser": "^5.11.0",
+    "babel-jest": "^27.5.1",
     "concurrently": "^7.0.0",
     "eslint": "^8.8.0",
     "eslint-config-airbnb-base": "^15.0.0",
@@ -23,9 +28,10 @@
     "typescript": "^4.5.5"
   },
   "scripts": {
-    "build": "tsc --watch",
+    "build": "tsc",
+    "watch": "tsc --watch",
     "run": "nodemon -q dist/index.js",
-    "dev": "concurrently --raw npm:build npm:run",
+    "dev": "concurrently --raw npm:watch npm:run",
     "lint": "eslint --ext .js,.ts .",
     "format": "prettier --ignore-path .gitignore --write \"**/*.+(js|ts|json)\"",
     "test": "jest --watch"
@@ -38,8 +44,7 @@
     ],
     "extends": [
       "airbnb-base",
-      "airbnb-typescript/base",
-      "prettier"
+      "airbnb-typescript/base"
     ],
     "parser": "@typescript-eslint/parser",
     "parserOptions": {
@@ -54,12 +59,21 @@
       ],
       "no-unused-vars": 0,
       "@typescript-eslint/no-unused-vars": 0,
-      "no-console": 0
+      "no-console": 0,
+      "max-classes-per-file": 0,
+      "no-plusplus": 0
     },
     "env": {
       "browser": true,
       "es2021": true,
       "node": true
     }
+  },
+  "eslintIgnore": ["node_modules", "dist"],
+  "babel": {
+    "presets": [
+      ["@babel/preset-env", {"targets": {"node": "current"}}],
+      "@babel/preset-typescript"
+    ]
   }
 }
