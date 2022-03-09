@@ -11,6 +11,14 @@
 // binary tree nodes only have at most two child nodes
 // binary search trees are sorted so that lesser values are to the left and greater to the right
 
+// time complexity between BFS and DFS is the same
+// BFS will use more space for very wide trees
+// DFS uses recursion, so it will build up the call stack
+// DFS 'order' / 'reversed' have obvious uses
+// DFS 'preorder' makes it possible to build the same tree again using flattened data
+
+const { Queue } = require('./s21_queue');
+
 class BSTNode<T> {
   left: BSTNode<T> | null;
 
@@ -27,6 +35,17 @@ class BST<T> {
   root: BSTNode<T> | null = null;
 
   depth: number = 0;
+
+  static build<T>(arr: T[]): BST<T> {
+    const list = new BST<T>();
+    arr.forEach((el) => list.insert(el));
+    return list;
+  }
+
+  static duplicate<T>(bst: BST<T>): BST<T> {
+    const arr = bst.toArray('DFS', { order: 'pre' });
+    return BST.build(arr);
+  }
 
   static #leftOrRight<T>(node: BSTNode<T>, val: T): 'left' | 'right' | 'found' {
     if (val > node.value) return 'right';
@@ -100,6 +119,53 @@ class BST<T> {
 
     if (!q) console.log(log);
     return log;
+  }
+
+  #BFSArray(): T[] {
+    const array: T[] = [];
+    if (this.root === null) return array;
+    const queue = new Queue<BSTNode<T>>();
+    queue.add(this.root);
+
+    while (queue.size > 0) {
+      const node = queue.remove()!.value;
+      array.push(node.value);
+      if (node.left) queue.add(node.left);
+      if (node.right) queue.add(node.right);
+    }
+
+    return array;
+  }
+
+  #DFSArray(options: 'pre' | 'post' | 'order' | 'reverse' = 'order'): T[] {
+    const array: T[] = [];
+    if (this.root === null) return array;
+
+    const operations = {
+      left: (node: BSTNode<T>, cb: typeof collectNodes) => { if (node.left) cb(node.left); },
+      main: (node: BSTNode<T>) => { array.push(node.value); },
+      right: (node: BSTNode<T>, cb: typeof collectNodes) => { if (node.right) cb(node.right); },
+    };
+
+    let orderedOperations: (keyof typeof operations)[] = ['left', 'main', 'right'];
+    if (options === 'pre') orderedOperations = ['main', 'left', 'right'];
+    if (options === 'post') orderedOperations = ['left', 'right', 'main'];
+    if (options === 'reverse') orderedOperations = ['right', 'main', 'left'];
+
+    const collectNodes = (node: BSTNode<T>): void => {
+      orderedOperations.forEach((name) => operations[name](node, collectNodes));
+    };
+
+    collectNodes(this.root);
+
+    return array;
+  }
+
+  toArray(type: 'BFS'): T[];
+  toArray(type: 'DFS', options?: { order: 'pre' | 'post' | 'order' | 'reverse' }): T[];
+  toArray(type: 'BFS' | 'DFS', options?: { order: 'pre' | 'post' | 'order' | 'reverse' }): T[] {
+    if (type === 'BFS') return this.#BFSArray();
+    return this.#DFSArray(options?.order);
   }
 }
 

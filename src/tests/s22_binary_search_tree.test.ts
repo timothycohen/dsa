@@ -120,3 +120,68 @@ test('prints', () => {
            ...retracing and moving right from 243 to 543
 543 is a leaf`.replace(/\s/g, ''));
 });
+
+test('BFSArray', () => {
+  const bst = new BST();
+  bst.insert(5);
+  bst.insert(3);
+  bst.insert(9);
+  bst.insert(4);
+  bst.insert(243);
+  bst.insert(3);
+  bst.insert(16);
+  bst.insert(23);
+  bst.insert(4);
+  bst.insert(86);
+  bst.insert(543);
+  bst.insert(2);
+  bst.insert(34);
+  const expected = [5, 3, 9, 2, 4, 243, 16, 543, 23, 86, 34];
+  expect(bst.toArray('BFS')).toEqual(expected);
+});
+
+test('DFSArray', () => {
+  const bst = new BST();
+  bst.insert(5);
+  bst.insert(3);
+  bst.insert(9);
+  bst.insert(4);
+  bst.insert(243);
+  bst.insert(3);
+  bst.insert(16);
+  bst.insert(23);
+  bst.insert(4);
+  bst.insert(86);
+  bst.insert(543);
+  bst.insert(2);
+  bst.insert(34);
+  const expectedPreOrder = [5, 3, 2, 4, 9, 243, 16, 23, 86, 34, 543];
+  const expectedPostOrder = [2, 4, 3, 34, 86, 23, 16, 543, 243, 9, 5];
+  const expectedInOrder = [2, 3, 4, 5, 9, 16, 23, 34, 86, 243, 543];
+  expect(bst.toArray('DFS', { order: 'pre' })).toEqual(expectedPreOrder);
+  expect(bst.toArray('DFS', { order: 'post' })).toEqual(expectedPostOrder);
+  expect(bst.toArray('DFS', { order: 'order' })).toEqual(expectedInOrder);
+  expect(bst.toArray()).toEqual(expectedInOrder);
+  expect(bst.toArray('DFS')).toEqual(expectedInOrder);
+  expect(bst.toArray('DFS', { order: 'reverse' })).toEqual(expectedInOrder.reverse());
+});
+
+test('build from array', () => {
+  const array = [5, 3, 2, 4, 9, 243, 16, 23, 86, 34, 543];
+  const expectedInOrder = [2, 3, 4, 5, 9, 16, 23, 34, 86, 243, 543];
+  const tree = BST.build(array);
+  expect(tree.toArray('DFS', { order: 'order' })).toEqual(expectedInOrder);
+});
+
+test('duplicate', () => {
+  const array = [5, 3, 2, 4, 9, 243, 16, 23, 86, 34, 543];
+  const tree = BST.build(array);
+  const dup = BST.duplicate(tree);
+  dup.insert(500);
+
+  const treePostOrder = [2, 4, 3, 34, 86, 23, 16, 543, 243, 9, 5];
+  expect(tree.toArray('DFS', { order: 'post' })).toEqual(treePostOrder);
+
+  const dupPostOrder = [2, 4, 3, 34, 86, 23, 16, 500, 543, 243, 9, 5];
+  expect(dup.toArray('DFS', { order: 'post' })).toEqual(dupPostOrder);
+});
