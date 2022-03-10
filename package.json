@@ -34,7 +34,7 @@
     "dev": "concurrently --raw npm:watch npm:run",
     "lint": "eslint --ext .js,.ts .",
     "format": "prettier --ignore-path .gitignore --write \"**/*.+(js|ts|json)\"",
-    "test": "jest --watch"
+    "test": "jest --watch --quiet=false"
   },
   "eslintConfig": {
     "plugins": [
