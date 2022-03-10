@@ -4,13 +4,11 @@ export {};
 
 test('insert value in the correct order', () => {
   const bst = new BST();
-  let res: boolean;
-
-  res = bst.insert(5);
-  res = bst.insert(2);
-  res = bst.insert(6);
-  res = bst.insert(8);
-  res = bst.insert(7);
+  bst.insert(5);
+  bst.insert(2);
+  bst.insert(6);
+  bst.insert(8);
+  bst.insert(7);
 
   expect(bst.root.value).toBe(5);
   expect(bst.root.right.value).toBe(6);
@@ -21,53 +19,43 @@ test('insert value in the correct order', () => {
 
 test('insert return is a bool representation of insertion success', () => {
   const bst = new BST();
-  let res: boolean;
 
-  res = bst.insert(5);
-  expect(res).toBe(true);
-  res = bst.insert(2);
-  expect(res).toBe(true);
-  res = bst.insert(6);
-  expect(res).toBe(true);
-  res = bst.insert(8);
-  expect(res).toBe(true);
-  res = bst.insert(5);
-  expect(res).toBe(false);
-  res = bst.insert(7);
-  expect(res).toBe(true);
-  res = bst.insert(6);
-  expect(res).toBe(false);
+  expect(bst.insert(5)).toBe(true);
+  expect(bst.insert(2)).toBe(true);
+  expect(bst.insert(6)).toBe(true);
+  expect(bst.insert(8)).toBe(true);
+  expect(bst.insert(5)).toBe(false);
+  expect(bst.insert(7)).toBe(true);
+  expect(bst.insert(6)).toBe(false);
 });
 
 test('correctly tracks the max depth', () => {
   const bst = new BST();
-  let res: boolean;
   expect(bst.depth).toBe(0);
-  res = bst.insert(5);
+  bst.insert(5);
   expect(bst.depth).toBe(1);
-  res = bst.insert(2);
+  bst.insert(2);
   expect(bst.depth).toBe(2);
-  res = bst.insert(6);
+  bst.insert(6);
   expect(bst.depth).toBe(2);
-  res = bst.insert(8);
+  bst.insert(8);
   expect(bst.depth).toBe(3);
-  res = bst.insert(5);
+  bst.insert(5);
   expect(bst.depth).toBe(3);
-  res = bst.insert(7);
+  bst.insert(7);
   expect(bst.depth).toBe(4);
-  res = bst.insert(6);
+  bst.insert(6);
   expect(bst.depth).toBe(4);
 });
 
 test('contains returns a boolean designating presence', () => {
   const bst = new BST();
-  let res: boolean;
 
-  res = bst.insert(5);
-  res = bst.insert(2);
-  res = bst.insert(6);
-  res = bst.insert(8);
-  res = bst.insert(7);
+  bst.insert(5);
+  bst.insert(2);
+  bst.insert(6);
+  bst.insert(8);
+  bst.insert(7);
 
   expect(bst.contains(5)).toBe(true);
   expect(bst.contains(2)).toBe(true);
