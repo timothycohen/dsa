@@ -1,8 +1,10 @@
-const {
-  BinaryHeap, PriorityQueue, PQNode, FIFOPriorityQueue, FIFOPQNode,
-} = require('../s24_binary_heap');
-
-export {};
+import {
+  BinaryHeap,
+  PriorityQueue,
+  PQNode,
+  FIFOPriorityQueue,
+  FIFOPQNode,
+} from '../s24_binary_heap';
 
 test('insert value in the correct order', () => {
   const bh = new BinaryHeap();
@@ -133,17 +135,17 @@ test('priority queue', () => {
   pq.insert(new PQNode('GEEBUS', 2)); // first 2
   pq.insert(new PQNode('hmm', 5)); // first 5
   pq.insert(new PQNode('OWW', 3)); // first 3
-  expect(pq.remove().value).toBe('?!?!?!'); // removed first 1
+  expect(pq.remove()?.value).toBe('?!?!?!'); // removed first 1
   pq.insert(new PQNode('YOWZA', 1)); // second 1
   pq.insert(new PQNode('AHHHHHHH', 3)); // second 3
   pq.insert(new PQNode('NOPENOPE', 1)); // third 1
-  expect(pq.remove().value).toBe('NOPENOPE'); // removed third 1
-  expect(pq.remove().value).toBe('YOWZA'); // removed second 1
-  expect(pq.remove().value).toBe('GEEBUS'); // removed first 2
-  expect(pq.remove().value).toBe('AHHHHHHH'); // removed second 3
-  expect(pq.remove().value).toBe('OWW'); // removed first 3
-  expect(pq.remove().value).toBe('ouch'); // removed first 4
-  expect(pq.remove().value).toBe('hmm'); // removed first 5
+  expect(pq.remove()?.value).toBe('NOPENOPE'); // removed third 1
+  expect(pq.remove()?.value).toBe('YOWZA'); // removed second 1
+  expect(pq.remove()?.value).toBe('GEEBUS'); // removed first 2
+  expect(pq.remove()?.value).toBe('AHHHHHHH'); // removed second 3
+  expect(pq.remove()?.value).toBe('OWW'); // removed first 3
+  expect(pq.remove()?.value).toBe('ouch'); // removed first 4
+  expect(pq.remove()?.value).toBe('hmm'); // removed first 5
   expect(pq.remove()).toBe(undefined);
 });
 
@@ -153,25 +155,30 @@ test('priority queue', () => {
 test('fifo priority queue', async () => {
   const pq = new FIFOPriorityQueue();
 
-  const pause = (cb: Function) => new Promise((r) => { setTimeout(() => { r(cb); }, 1); });
+  const pause = (cb: void) =>
+    new Promise(r => {
+      setTimeout(() => {
+        r(cb);
+      }, 1);
+    });
   await pause(pq.insert(new FIFOPQNode('ouch', 4))); // first 4
   await pause(pq.insert(new FIFOPQNode('?!?!?!', 1))); // first 1
   await pause(pq.insert(new FIFOPQNode('GEEBUS', 2))); // first 2
   await pause(pq.insert(new FIFOPQNode('hmm', 5))); // first 5
   await pause(pq.insert(new FIFOPQNode('OWW', 3))); // first 3
 
-  expect(pq.remove().value).toBe('?!?!?!'); // removed first 1
+  expect(pq.remove()?.value).toBe('?!?!?!'); // removed first 1
 
   await pause(pq.insert(new FIFOPQNode('YOWZA', 1))); // second 1
   await pause(pq.insert(new FIFOPQNode('AHHHHHHH', 3))); // second 3
   await pause(pq.insert(new FIFOPQNode('NOPENOPE', 1))); // third 1
 
-  expect(pq.remove().value).toBe('YOWZA'); // removed second 1
-  expect(pq.remove().value).toBe('NOPENOPE'); // removed third 1
-  expect(pq.remove().value).toBe('GEEBUS'); // removed first 2
-  expect(pq.remove().value).toBe('OWW'); // removed first 3
-  expect(pq.remove().value).toBe('AHHHHHHH'); // removed second 3
-  expect(pq.remove().value).toBe('ouch'); // removed first 4
-  expect(pq.remove().value).toBe('hmm'); // removed first 5
+  expect(pq.remove()?.value).toBe('YOWZA'); // removed second 1
+  expect(pq.remove()?.value).toBe('NOPENOPE'); // removed third 1
+  expect(pq.remove()?.value).toBe('GEEBUS'); // removed first 2
+  expect(pq.remove()?.value).toBe('OWW'); // removed first 3
+  expect(pq.remove()?.value).toBe('AHHHHHHH'); // removed second 3
+  expect(pq.remove()?.value).toBe('ouch'); // removed first 4
+  expect(pq.remove()?.value).toBe('hmm'); // removed first 5
   expect(pq.remove()).toBe(undefined);
 });

@@ -6,34 +6,37 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "type": "module",
   "devDependencies": {
     "@babel/core": "^7.17.5",
     "@babel/preset-env": "^7.16.11",
     "@babel/preset-typescript": "^7.16.7",
     "@types/jest": "^27.4.1",
-    "@types/node": "^17.0.17",
-    "@typescript-eslint/eslint-plugin": "^5.11.0",
-    "@typescript-eslint/parser": "^5.11.0",
+    "@types/node": "^17.0.21",
+    "@typescript-eslint/eslint-plugin": "^5.14.0",
+    "@typescript-eslint/parser": "^5.14.0",
     "babel-jest": "^27.5.1",
-    "concurrently": "^7.0.0",
-    "eslint": "^8.8.0",
+    "eslint": "^8.10.0",
     "eslint-config-airbnb-base": "^15.0.0",
-    "eslint-config-airbnb-typescript": "^16.1.0",
+    "eslint-config-airbnb-typescript": "^16.1.1",
+    "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-html": "^6.2.0",
     "eslint-plugin-import": "^2.25.4",
     "jest": "^27.5.1",
-    "nodemon": "^2.0.15",
-    "ts-node": "^10.5.0",
+    "prettier": "^2.5.1",
+    "prettier-eslint": "^13.0.0",
+    "ts-node": "^10.7.0",
     "tslib": "^2.3.1",
-    "typescript": "^4.5.5"
+    "typescript": "^4.6.2",
+    "vite": "^2.8.6"
   },
   "scripts": {
-    "build": "tsc",
-    "watch": "tsc --watch",
-    "run": "nodemon -q dist/index.js",
-    "dev": "concurrently --raw npm:watch npm:run",
-    "lint": "eslint --ext .js,.ts .",
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "lint": "eslint --fix --ext .js,.ts .",
     "format": "prettier --ignore-path .gitignore --write \"**/*.+(js|ts|json)\"",
+    "fix": "npm run format && npm run lint",
     "test": "jest --watch --quiet=false"
   },
   "eslintConfig": {
@@ -44,7 +47,8 @@
     ],
     "extends": [
       "airbnb-base",
-      "airbnb-typescript/base"
+      "airbnb-typescript/base",
+      "prettier"
     ],
     "parser": "@typescript-eslint/parser",
     "parserOptions": {
@@ -59,9 +63,14 @@
       ],
       "no-unused-vars": 0,
       "@typescript-eslint/no-unused-vars": 0,
+      "@typescript-eslint/no-shadow": 0,
       "no-console": 0,
+      "no-param-reassign": 0,
       "max-classes-per-file": 0,
-      "no-plusplus": 0
+      "no-plusplus": 0,
+      "import/prefer-default-export": 0,
+      "class-methods-use-this": 0,
+      "no-constant-condition": 0
     },
     "env": {
       "browser": true,
@@ -69,10 +78,28 @@
       "node": true
     }
   },
-  "eslintIgnore": ["node_modules", "dist"],
+  "eslintIgnore": [
+    "node_modules",
+    "dist"
+  ],
+  "prettierIgnore": [
+    "*.html"
+  ],
+  "prettier": {
+    "arrowParens": "avoid",
+    "printWidth": 100,
+    "singleQuote": true
+  },
   "babel": {
     "presets": [
-      ["@babel/preset-env", {"targets": {"node": "current"}}],
+      [
+        "@babel/preset-env",
+        {
+          "targets": {
+            "node": "current"
+          }
+        }
+      ],
       "@babel/preset-typescript"
     ]
   }

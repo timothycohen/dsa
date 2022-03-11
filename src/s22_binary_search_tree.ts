@@ -17,7 +17,7 @@
 // DFS 'order' / 'reversed' have obvious uses
 // DFS 'preorder' makes it possible to build the same tree again using flattened data
 
-const { Queue } = require('./s21_queue');
+import { Queue } from './s21_queue';
 
 class BSTNode<T> {
   left: BSTNode<T> | null;
@@ -31,14 +31,14 @@ class BSTNode<T> {
   }
 }
 
-class BST<T> {
+export class BST<T> {
   root: BSTNode<T> | null = null;
 
   depth: number = 0;
 
   static build<T>(arr: T[]): BST<T> {
     const list = new BST<T>();
-    arr.forEach((el) => list.insert(el));
+    arr.forEach(el => list.insert(el));
     return list;
   }
 
@@ -64,7 +64,6 @@ class BST<T> {
     }
 
     let nodeToCheck: BSTNode<T> = this.root;
-    // eslint-disable-next-line no-constant-condition
     while (true) {
       const direction = BST.#leftOrRight(nodeToCheck, val);
       depthCount++;
@@ -83,7 +82,6 @@ class BST<T> {
   contains(val: T): boolean {
     let nodeToCheck = this.root;
 
-    // eslint-disable-next-line no-constant-condition
     while (true) {
       if (nodeToCheck === null) return false;
       const direction = BST.#leftOrRight(nodeToCheck, val);
@@ -96,22 +94,32 @@ class BST<T> {
   print(q: 'q', parent = this.root): string {
     let log = '';
     const printNode = (node: BSTNode<T> | null): void => {
-      if (!node) { log += 'dead end\n'; return; }
-      if (!node.left && !node.right) { log += `${node.value} is a leaf\n`; return; }
+      if (!node) {
+        log += 'dead end\n';
+        return;
+      }
+      if (!node.left && !node.right) {
+        log += `${node.value} is a leaf\n`;
+        return;
+      }
       if (node.left && node.right) {
         log += `      ${node.value}\n${node.left.value} ⬅      ➡ ${node.right.value}`;
-        log += `\tmoving left from ${node.value} to ${node.left.value}\n`; printNode(node.left);
-        log += `\t\t...retracing and moving right from ${node.value} to ${node.right.value}\n`; printNode(node.right);
+        log += `\tmoving left from ${node.value} to ${node.left.value}\n`;
+        printNode(node.left);
+        log += `\t\t...retracing and moving right from ${node.value} to ${node.right.value}\n`;
+        printNode(node.right);
         return;
       }
       if (node.left) {
         log += `      ${node.value}\n${node.left.value} ⬅`;
-        log += `\t\tmoving left from ${node.value} to ${node.left.value}\n`; printNode(node.left);
+        log += `\t\tmoving left from ${node.value} to ${node.left.value}\n`;
+        printNode(node.left);
         return;
       }
       if (node.right) {
         log += `      ${node.value}\n        ➡ ${node.right.value}`;
-        log += `\tmoving right from ${node.value} to ${node.right.value}\n`; printNode(node.right);
+        log += `\tmoving right from ${node.value} to ${node.right.value}\n`;
+        printNode(node.right);
       }
     };
 
@@ -142,9 +150,15 @@ class BST<T> {
     if (this.root === null) return array;
 
     const operations = {
-      left: (node: BSTNode<T>, cb: typeof collectNodes) => { if (node.left) cb(node.left); },
-      main: (node: BSTNode<T>) => { array.push(node.value); },
-      right: (node: BSTNode<T>, cb: typeof collectNodes) => { if (node.right) cb(node.right); },
+      left: (node: BSTNode<T>, cb: typeof collectNodes) => {
+        if (node.left) cb(node.left);
+      },
+      main: (node: BSTNode<T>) => {
+        array.push(node.value);
+      },
+      right: (node: BSTNode<T>, cb: typeof collectNodes) => {
+        if (node.right) cb(node.right);
+      },
     };
 
     let orderedOperations: (keyof typeof operations)[] = ['left', 'main', 'right'];
@@ -153,7 +167,7 @@ class BST<T> {
     if (options === 'reverse') orderedOperations = ['right', 'main', 'left'];
 
     const collectNodes = (node: BSTNode<T>): void => {
-      orderedOperations.forEach((name) => operations[name](node, collectNodes));
+      orderedOperations.forEach(name => operations[name](node, collectNodes));
     };
 
     collectNodes(this.root);
@@ -161,12 +175,10 @@ class BST<T> {
     return array;
   }
 
-  toArray(type: 'BFS'): T[];
-  toArray(type: 'DFS', options?: { order: 'pre' | 'post' | 'order' | 'reverse' }): T[];
-  toArray(type: 'BFS' | 'DFS', options?: { order: 'pre' | 'post' | 'order' | 'reverse' }): T[] {
+  toArray(type?: 'BFS'): T[];
+  toArray(type?: 'DFS', options?: { order: 'pre' | 'post' | 'order' | 'reverse' }): T[];
+  toArray(type?: 'BFS' | 'DFS', options?: { order: 'pre' | 'post' | 'order' | 'reverse' }): T[] {
     if (type === 'BFS') return this.#BFSArray();
     return this.#DFSArray(options?.order);
   }
 }
-
-module.exports = { BST };

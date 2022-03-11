@@ -1,6 +1,4 @@
-const { BST } = require('../s22_binary_search_tree');
-
-export {};
+import { BST } from '../s22_binary_search_tree';
 
 test('insert value in the correct order', () => {
   const bst = new BST();
@@ -10,11 +8,11 @@ test('insert value in the correct order', () => {
   bst.insert(8);
   bst.insert(7);
 
-  expect(bst.root.value).toBe(5);
-  expect(bst.root.right.value).toBe(6);
-  expect(bst.root.right.right.value).toBe(8);
-  expect(bst.root.right.right.left.value).toBe(7);
-  expect(bst.root.left.value).toBe(2);
+  expect(bst.root?.value).toBe(5);
+  expect(bst.root?.right?.value).toBe(6);
+  expect(bst.root?.right?.right?.value).toBe(8);
+  expect(bst.root?.right?.right?.left?.value).toBe(7);
+  expect(bst.root?.left?.value).toBe(2);
 });
 
 test('insert return is a bool representation of insertion success', () => {
@@ -85,8 +83,11 @@ test('prints', () => {
   bst.insert(34);
 
   // console.log(JSON.stringify(bst.root, null, '    '));
-  expect(JSON.stringify(bst.root)).toBe('{"value":5,"left":{"value":3,"left":{"value":2,"left":null,"right":null},"right":{"value":4,"left":null,"right":null}},"right":{"value":9,"left":null,"right":{"value":243,"left":{"value":16,"left":null,"right":{"value":23,"left":null,"right":{"value":86,"left":{"value":34,"left":null,"right":null},"right":null}}},"right":{"value":543,"left":null,"right":null}}}}');
-  expect(bst.print('q').replace(/\s/g, '')).toBe(`      5
+  expect(JSON.stringify(bst.root)).toBe(
+    '{"value":5,"left":{"value":3,"left":{"value":2,"left":null,"right":null},"right":{"value":4,"left":null,"right":null}},"right":{"value":9,"left":null,"right":{"value":243,"left":{"value":16,"left":null,"right":{"value":23,"left":null,"right":{"value":86,"left":{"value":34,"left":null,"right":null},"right":null}}},"right":{"value":543,"left":null,"right":null}}}}'
+  );
+  expect(bst.print('q').replace(/\s/g, '')).toBe(
+    `      5
 3 ⬅      ➡ 9       moving left from 5 to 3
       3
 2 ⬅      ➡ 4       moving left from 3 to 2
@@ -106,7 +107,8 @@ test('prints', () => {
 34 ⬅              moving left from 86 to 34
 34 is a leaf
            ...retracing and moving right from 243 to 543
-543 is a leaf`.replace(/\s/g, ''));
+543 is a leaf`.replace(/\s/g, '')
+  );
 });
 
 test('BFSArray', () => {

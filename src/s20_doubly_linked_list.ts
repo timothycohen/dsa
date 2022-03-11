@@ -1,6 +1,6 @@
 // a doubly linked list is like a singly linked list, but with a prev property
 
-class DoublyLinkedListNode<T> {
+export class DoublyLinkedListNode<T> {
   val: T;
 
   next: null | DoublyLinkedListNode<unknown>;
@@ -14,7 +14,7 @@ class DoublyLinkedListNode<T> {
   }
 }
 
-class DoublyLinkedList {
+export class DoublyLinkedList {
   length: number;
 
   head: DoublyLinkedListNode<unknown> | null;
@@ -176,9 +176,7 @@ class DoublyLinkedList {
       if (node === null) return;
       const oldNext = node.next;
       const oldPrev = node.prev;
-      // eslint-disable-next-line no-param-reassign
       node.prev = oldNext;
-      // eslint-disable-next-line no-param-reassign
       node.next = oldPrev;
     };
 
@@ -228,5 +226,3 @@ class DoublyLinkedList {
     return response;
   }
 }
-
-module.exports = { DoublyLinkedList };

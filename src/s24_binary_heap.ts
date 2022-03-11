@@ -1,12 +1,9 @@
-/* eslint-disable max-len */
-/* eslint-disable class-methods-use-this */
-
 // max binary heap: each parent node is greater than its children
 // no guarantees between sibling nodes
 // compact as possible (left children are filled out first)
 // storing the values in an array from top to bottom, left to right, the children are at 2n+1 & 2n+2
 
-abstract class BH<T> {
+export abstract class BH<T> {
   #values: T[] = [];
 
   // extending classes supply their own comparison functions to make this generic
@@ -22,7 +19,7 @@ abstract class BH<T> {
     if (index < 0) return [null, null];
     let index1: number | null = 2 * index + 1;
     let index2: number | null = 2 * index + 2;
-    if (index1 > (this.#values.length - 1)) index1 = null;
+    if (index1 > this.#values.length - 1) index1 = null;
     if (index2 > this.#values.length - 1) index2 = null;
     return [index1, index2];
   }
@@ -33,7 +30,10 @@ abstract class BH<T> {
     const helper = (parentIndex: number): void => {
       const parVal = this.#values[parentIndex];
 
-      if (this.isEqual(parVal, val)) { foundIndex = parentIndex; return; }
+      if (this.isEqual(parVal, val)) {
+        foundIndex = parentIndex;
+        return;
+      }
       const [ch1, ch2] = this.findChildrenIndices(parentIndex);
       if (ch1 !== null && this.isGreater(this.#values[parentIndex], this.#values[ch1])) {
         helper(ch1);
@@ -57,10 +57,12 @@ abstract class BH<T> {
     const helper = (parentIndex: number = 0): boolean => {
       const [ch1, ch2] = this.findChildrenIndices(parentIndex);
       if (ch1 !== null) {
-        valid = (valid && this.isGreater(this.#values[parentIndex], this.#values[ch1]) && helper(ch1));
+        valid =
+          valid && this.isGreater(this.#values[parentIndex], this.#values[ch1]) && helper(ch1);
       }
       if (ch2 !== null) {
-        valid = (valid && this.isGreater(this.#values[parentIndex], this.#values[ch2]) && helper(ch2));
+        valid =
+          valid && this.isGreater(this.#values[parentIndex], this.#values[ch2]) && helper(ch2);
       }
       return valid;
     };
@@ -73,7 +75,10 @@ abstract class BH<T> {
     if (parentIndex === null) return;
     if (this.isGreater(this.#values[parentIndex], this.#values[childIndex])) return;
 
-    [this.#values[childIndex], this.#values[parentIndex]] = [this.#values[parentIndex], this.#values[childIndex]];
+    [this.#values[childIndex], this.#values[parentIndex]] = [
+      this.#values[parentIndex],
+      this.#values[childIndex],
+    ];
     this.bubble(parentIndex);
   }
 
@@ -88,9 +93,16 @@ abstract class BH<T> {
     } else {
       largerChild = ch2;
     }
-    if (largerChild === null || this.isGreater(this.#values[parentIndex], this.#values[largerChild])) return;
+    if (
+      largerChild === null ||
+      this.isGreater(this.#values[parentIndex], this.#values[largerChild])
+    )
+      return;
 
-    [this.#values[largerChild], this.#values[parentIndex]] = [this.#values[parentIndex], this.#values[largerChild]];
+    [this.#values[largerChild], this.#values[parentIndex]] = [
+      this.#values[parentIndex],
+      this.#values[largerChild],
+    ];
 
     this.sink(largerChild);
   }
@@ -116,10 +128,12 @@ abstract class BH<T> {
     return extracted;
   }
 
-  getValues() { return [...this.#values]; }
+  getValues() {
+    return [...this.#values];
+  }
 }
 
-class BinaryHeap extends BH<number> {
+export class BinaryHeap extends BH<number> {
   isGreater = (v1: number, v2: number): boolean => v1 > v2;
 
   isEqual = (v1: number, v2: number): boolean => v1 === v2;
@@ -128,21 +142,22 @@ class BinaryHeap extends BH<number> {
 // limiting to primitives because of the strict equality used below
 type P = string | number | bigint | boolean | undefined | symbol | null;
 
-class PQNode<T extends P> {
+export class PQNode<T extends P> {
   constructor(public value: T, public priority: number) {
     this.value = value;
     this.priority = priority ?? 5;
   }
 }
 
-class PriorityQueue<T extends P> extends BH<PQNode<T>> {
+export class PriorityQueue<T extends P> extends BH<PQNode<T>> {
   // higher priority has a lower priority number
   isGreater = (n1: PQNode<T>, n2: PQNode<T>): boolean => n1?.priority < n2?.priority;
 
-  isEqual = (n1: PQNode<T>, n2: PQNode<T>): boolean => (n1?.priority === n2?.priority) && (n1?.value === n2?.value);
+  isEqual = (n1: PQNode<T>, n2: PQNode<T>): boolean =>
+    n1?.priority === n2?.priority && n1?.value === n2?.value;
 }
 
-class FIFOPQNode<T extends P> {
+export class FIFOPQNode<T extends P> {
   creationTime: number;
 
   constructor(public value: T, public priority: number) {
@@ -152,7 +167,7 @@ class FIFOPQNode<T extends P> {
   }
 }
 
-class FIFOPriorityQueue<T extends P> extends BH<FIFOPQNode<T>> {
+export class FIFOPriorityQueue<T extends P> extends BH<FIFOPQNode<T>> {
   // higher priority has a lower priority number or same priority and earlier creation time
   isGreater = (n1: FIFOPQNode<T>, n2: FIFOPQNode<T>): boolean => {
     if (n1.priority < n2?.priority) return true;
@@ -162,14 +177,9 @@ class FIFOPriorityQueue<T extends P> extends BH<FIFOPQNode<T>> {
 
   isEqual = (n1: FIFOPQNode<T> | null, n2: FIFOPQNode<T> | null): boolean => {
     if (!n1 || !n2) return false;
-    const reducer: (acc: boolean, key: keyof FIFOPQNode<T>) => boolean = (acc, key) => acc && (n1[key] === n2[key]);
+    const reducer: (acc: boolean, key: keyof FIFOPQNode<T>) => boolean = (acc, key) =>
+      acc && n1[key] === n2[key];
     const keys = Object.keys(n1) as (keyof FIFOPQNode<T>)[];
     return keys.reduce(reducer, true);
   };
 }
-
-module.exports = {
-  BinaryHeap, PriorityQueue, PQNode, FIFOPriorityQueue, FIFOPQNode,
-};
-
-const bh = new BinaryHeap();

@@ -12,7 +12,7 @@ class SinglyLinkedListNode<T> {
   }
 }
 
-class SinglyLinkedList {
+export class SinglyLinkedList {
   length: number;
 
   head: SinglyLinkedListNode<unknown> | null;
@@ -33,7 +33,7 @@ class SinglyLinkedList {
       this.head = n;
       this.tail = n;
     } else {
-    // otherwise point the tail to the new node and make the new node the tail
+      // otherwise point the tail to the new node and make the new node the tail
       this.tail!.next = n;
       this.tail = n;
     }
@@ -190,5 +190,3 @@ class SinglyLinkedList {
     return response;
   }
 }
-
-module.exports = { SinglyLinkedList };

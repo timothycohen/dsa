@@ -13,7 +13,7 @@ class StackNode<T> {
 
 // point from top to bottom
 // add and remove from the top
-class Stack<T> {
+export class Stack<T> {
   depth: number;
 
   bottom: StackNode<T> | null;
@@ -61,5 +61,3 @@ class Stack<T> {
     return oldTop;
   }
 }
-
-module.exports = { Stack };

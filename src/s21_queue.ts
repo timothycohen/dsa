@@ -13,7 +13,7 @@ class QueueNode<T> {
 
 // point from oldest to newest
 // add newest and remove oldest
-class Queue<T> {
+export class Queue<T> {
   size: number;
 
   oldest: QueueNode<T> | null;
@@ -62,5 +62,3 @@ class Queue<T> {
     return oldOldest;
   }
 }
-
-module.exports = { Queue };
