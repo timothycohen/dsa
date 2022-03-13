@@ -113,6 +113,10 @@ export abstract class BH<T> {
     this.bubble();
   }
 
+  root(): T | undefined {
+    return this.#values[0];
+  }
+
   remove(): T | undefined {
     const extracted = this.#values[0];
     const tempRoot = this.#values.pop();
@@ -130,6 +134,10 @@ export abstract class BH<T> {
 
   getValues() {
     return [...this.#values];
+  }
+
+  get size() {
+    return this.#values.length;
   }
 }
 

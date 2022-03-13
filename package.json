@@ -7,12 +7,16 @@
   "author": "",
   "license": "ISC",
   "type": "module",
+  "dependencies": {
+    "winston": "^3.6.0"
+  },
   "devDependencies": {
     "@babel/core": "^7.17.5",
     "@babel/preset-env": "^7.16.11",
     "@babel/preset-typescript": "^7.16.7",
     "@types/jest": "^27.4.1",
     "@types/node": "^17.0.21",
+    "@types/winston": "^2.4.4",
     "@typescript-eslint/eslint-plugin": "^5.14.0",
     "@typescript-eslint/parser": "^5.14.0",
     "babel-jest": "^27.5.1",
@@ -37,7 +41,9 @@
     "lint": "eslint --fix --ext .js,.ts .",
     "format": "prettier --ignore-path .gitignore --write \"**/*.+(js|ts|json)\"",
     "fix": "npm run format && npm run lint",
-    "test": "jest --watch --quiet=false"
+    "test": "jest --watch",
+    "test_skip": "jest --watch --testPathIgnorePatterns=\"skip\"",
+    "test_only": "jest --watch --testPathPattern=\"only\""
   },
   "eslintConfig": {
     "plugins": [
