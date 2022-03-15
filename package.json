@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "keywords": [],
-  "author": "",
+  "repository": "git@github.com:timothycohen/dsa",
+  "author": "Tim Cohen",
   "license": "ISC",
   "type": "module",
   "dependencies": {
@@ -16,7 +17,6 @@
     "@babel/preset-typescript": "^7.16.7",
     "@types/jest": "^27.4.1",
     "@types/node": "^17.0.21",
-    "@types/winston": "^2.4.4",
     "@typescript-eslint/eslint-plugin": "^5.14.0",
     "@typescript-eslint/parser": "^5.14.0",
     "babel-jest": "^27.5.1",
